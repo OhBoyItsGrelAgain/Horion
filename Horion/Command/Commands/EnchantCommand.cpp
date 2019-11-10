@@ -88,16 +88,17 @@ bool EnchantCommand::execute(std::vector<std::string>* args)
 	if (isAuto)
 	{
 		{
-			
+			firstAction = new C_InventoryAction(supplies->selectedHotbarSlot, item, nullptr);
 			if (strcmp(g_Data.getRakNetInstance()->serverIp.getText(), "mco.mineplex.com") == 0)
 				secondAction = new C_InventoryAction(0, nullptr, item, 32766, 100);
 			else
 			{
-				firstAction = new C_InventoryAction(supplies->selectedHotbarSlot, item, nullptr);
 				secondAction = new C_InventoryAction(0, nullptr, item, 507, 99999);
 			}
 			manager->addInventoryAction(*firstAction);
 			manager->addInventoryAction(*secondAction);
+			delete firstAction;
+			delete secondAction;
 		}
 	}
 
@@ -111,7 +112,7 @@ bool EnchantCommand::execute(std::vector<std::string>* args)
 
 	if (strcmp(args->at(1).c_str(), "all") == 0)
 	{
-		for (int i = 0; i < 32; i++)
+		for (int i = 0; i < 38; i++)
 		{
 			void* EnchantData = malloc(0x60);
 			if (EnchantData != nullptr)
@@ -174,6 +175,8 @@ bool EnchantCommand::execute(std::vector<std::string>* args)
 		secondAction = new C_InventoryAction(supplies->selectedHotbarSlot, nullptr, item);
 		manager->addInventoryAction(*firstAction);
 		manager->addInventoryAction(*secondAction);
+		delete firstAction;
+		delete secondAction;
 	}
 
 	return true;
